@@ -36,6 +36,7 @@ import java.util.Collection;
  * @author Sam Brannen
  * @author Michael Isvy
  */
+@org.springframework.stereotype.Repository
 public interface VetRepository extends Repository<Vet, Integer> {
 
 	/**

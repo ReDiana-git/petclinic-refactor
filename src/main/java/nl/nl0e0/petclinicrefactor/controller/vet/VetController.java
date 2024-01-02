@@ -18,6 +18,7 @@ package nl.nl0e0.petclinicrefactor.controller.vet;
 import nl.nl0e0.petclinicrefactor.entity.vet.Vet;
 import nl.nl0e0.petclinicrefactor.entity.vet.Vets;
 import nl.nl0e0.petclinicrefactor.repository.vet.VetRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +39,7 @@ import java.util.List;
 @Controller
 class VetController {
 
+	@Autowired
 	private final VetRepository vetRepository;
 
 	public VetController(VetRepository clinicService) {
