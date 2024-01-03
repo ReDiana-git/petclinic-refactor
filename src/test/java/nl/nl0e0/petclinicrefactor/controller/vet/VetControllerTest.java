@@ -47,19 +47,14 @@ public class VetControllerTest {
                 .andExpect(status().isOk());
     }
     @Test
-    public void testShowVetList() throws Exception {
-        // 创建一个空的 Vet 列表
-        Page<Vet> vetPage = new PageImpl<>(Collections.emptyList(), PageRequest.of(0, 10), 0);
+    public void testShowResourcesVetList() throws Exception {
+        Vet vet = new Vet(); // 根据需要替换为合适的构造方法或设置方法
+        when(vetRepository.findAll()).thenReturn(Arrays.asList(vet));
 
-        // 模拟 findPaginated 方法的返回值
-        when(vetRepository.findAll(any(PageRequest.class))).thenReturn(vetPage);
-
-        // 执行 GET 请求并验证结果
-        mockMvc.perform(get("/vets.html").param("page", "1"))
-                .andDo(print())
+        mockMvc.perform(get("/vets"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("vets/vetList")) // 替换为实际的视图名称
-                .andExpect(model().attributeExists("listVets", "currentPage", "totalPages", "totalItems"));
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$.vetList[0]").exists()); // 确保 JSON 响应有预期的结构
     }
 
 }
