@@ -1,31 +1,19 @@
 package nl.nl0e0.petclinicrefactor.entity.model;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
 public class BaseRecord {
-	public Integer getOwnerId() {
-		return ownerId;
-	}
-
-	public Integer getPetId() {
-		return petId;
-	}
-
-	public AppointmentState getState() {
-		return state;
-	}
-
-	public void setOwnerId(Integer ownerId) {
-		this.ownerId = ownerId;
-	}
-
-	public void setPetId(Integer petId) {
-		this.petId = petId;
-	}
-
-	public void setState(AppointmentState state) {
-		this.state = state;
-	}
-
-	private Integer ownerId;
-	private Integer petId;
 	private AppointmentState state;
-
+	private String ownerFirstName;
+	private String ownerLastName;
+	private String vetFirstName;
+	private String vetLastName;
+	private String petName;
+	private LocalDateTime appointmentDate;
+	private Integer price;
 }

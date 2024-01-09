@@ -10,4 +10,5 @@ public interface ConsultationRepository extends Repository<ConsultationEntity,St
 	ConsultationEntity findById(@Param("id") String id);
 
 
+	void deleteAll();
 }

@@ -1,32 +1,26 @@
 package nl.nl0e0.petclinicrefactor.entity.appointment;
 
+import lombok.Getter;
 import nl.nl0e0.petclinicrefactor.entity.model.BaseRecord;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
+import nl.nl0e0.petclinicrefactor.entity.owner.Owner;
+import nl.nl0e0.petclinicrefactor.entity.vet.Vet;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class CheckAppointmentDTO extends BaseRecord {
-	public String getRecordId() {
-		return recordId;
-	}
 
-	public String getAppointmentId() {
-		return appointmentId;
-	}
-
-	public LocalDateTime getAppointmentDate() {
-		return appointmentDate;
-	}
-
-	private String recordId;
-	private String appointmentId;
 	private LocalDateTime appointmentDate;
 
-	public CheckAppointmentDTO(AppointmentEntity appointmentEntity, MedicalRecord record){
-		this.recordId = record.getId();
-		this.appointmentId = record.getAppointmentId();
-		this.appointmentDate = appointmentEntity.getAppointmentDate();
-		super.setPetId(record.getPetId());
-		super.setOwnerId(record.getOwnerId());
-		super.setState(record.getState());
+
+
+	public CheckAppointmentDTO(AppointmentEntity appointmentEntity, MedicalRecord record, Owner owner, Vet vet){
+		appointmentDate = appointmentEntity.getAppointmentDate();
+		setOwnerFirstName(owner.getFirstName());
+		setOwnerLastName(owner.getLastName());
+		setVetFirstName(vet.getFirstName());
+		setVetLastName(getVetLastName());
+		setState(record.getState());
 	}
 }

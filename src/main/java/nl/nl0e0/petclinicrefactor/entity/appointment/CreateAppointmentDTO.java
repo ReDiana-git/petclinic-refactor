@@ -1,23 +1,13 @@
 package nl.nl0e0.petclinicrefactor.entity.appointment;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
-
+@Getter
 public class CreateAppointmentDTO {
-
-	public Integer getOwnerId() {
-		return ownerId;
-	}
-
-	public Integer getPetId() {
-		return petId;
-	}
-
-	public LocalDateTime getAppointmentDate() {
-		return appointmentDate;
-	}
-
 	private Integer ownerId;
 	private Integer petId;
+	private Integer vetId;
 	private LocalDateTime appointmentDate;
 
 }

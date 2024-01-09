@@ -4,12 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 
 import java.io.Serializable;
 import java.util.UUID;
-
+@Getter
 @Entity
 @Table(name = "medicalrecord")
 public class MedicalRecord implements Serializable {
@@ -20,6 +21,9 @@ public class MedicalRecord implements Serializable {
 
 	@Column(name = "owner_id")
 	private Integer ownerId;
+
+	@Column(name = "vet_id")
+	private Integer vetId;
 	@Column(name = "state")
 	private String State;
 
@@ -34,17 +38,6 @@ public class MedicalRecord implements Serializable {
 	@Column(name = "medicine_id")
 	private String medicineId = UUID.randomUUID().toString();
 
-	public String getId() {
-		return id;
-	}
-
-	public Integer getOwnerId() {
-		return ownerId;
-	}
-
-	public Integer getPetId() {
-		return petId;
-	}
 
 	public AppointmentState getState(){
 		switch(State){
@@ -59,25 +52,11 @@ public class MedicalRecord implements Serializable {
 		}
 		return null;
 	}
-	public String getAppointmentId() {
-		return appointmentId;
-	}
-
-	public String getConsultaionId() {
-		return consultaionId;
-	}
-
-	public String getPaymentId() {
-		return paymentId;
-	}
-
-	public String getMedicineId() {
-		return medicineId;
-	}
 
 	public MedicalRecord(CreateAppointmentDTO dto) {
 		this.ownerId = dto.getOwnerId();
 		this.petId = dto.getPetId();
+		this.vetId = dto.getVetId();
 		this.State = "init";
 	}
 

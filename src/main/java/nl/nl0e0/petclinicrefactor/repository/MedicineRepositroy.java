@@ -7,4 +7,6 @@ public interface MedicineRepositroy extends Repository<MedicineEntity,String> {
 	void save(MedicineEntity medicineEntity);
 
 	MedicineEntity findById(String medicineId);
+
+    void deleteAll();
 }

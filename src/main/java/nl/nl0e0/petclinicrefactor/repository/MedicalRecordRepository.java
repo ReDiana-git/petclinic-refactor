@@ -11,4 +11,6 @@ public interface MedicalRecordRepository extends Repository<MedicalRecord,String
 	List<MedicalRecord> findByOwnerId(Integer ownerId);
 
 	MedicalRecord findById(String recordId);
+
+    void deleteAll();
 }

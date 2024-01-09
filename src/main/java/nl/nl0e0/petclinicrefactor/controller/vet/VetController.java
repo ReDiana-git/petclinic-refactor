@@ -17,7 +17,7 @@ package nl.nl0e0.petclinicrefactor.controller.vet;
 
 import nl.nl0e0.petclinicrefactor.entity.vet.Vet;
 import nl.nl0e0.petclinicrefactor.entity.vet.Vets;
-import nl.nl0e0.petclinicrefactor.repository.vet.VetRepository;
+import nl.nl0e0.petclinicrefactor.repository.VetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
