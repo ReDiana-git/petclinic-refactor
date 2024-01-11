@@ -6,8 +6,8 @@ import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.model.BaseRecord;
 import nl.nl0e0.petclinicrefactor.entity.owner.Owner;
 import nl.nl0e0.petclinicrefactor.entity.owner.Pet;
-import nl.nl0e0.petclinicrefactor.entity.payment.PaymentEntity;
 import nl.nl0e0.petclinicrefactor.entity.vet.Vet;
+import nl.nl0e0.petclinicrefactor.repository.AppointmentRepository;
 import nl.nl0e0.petclinicrefactor.service.model.ModelSerive;
 import nl.nl0e0.petclinicrefactor.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +15,26 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 @Component
 public class AppointmentRecordBuilder {
     @Autowired
     ModelSerive modelSerive;
     @Autowired
     PaymentService paymentService;
-    public List<BaseRecord> buildRecordsFromMedicalRecords(List<MedicalRecord> medicalRecords, AppointmentService appointmentService) {
+    @Autowired
+    AppointmentRepository appointmentRepository;
+    public List<BaseRecord> buildRecordsFromMedicalRecords(List<MedicalRecord> medicalRecords) {
         List<BaseRecord> records = new ArrayList<>();
         for(MedicalRecord record: medicalRecords){
-            records.add(createBaseRecord(record, appointmentService));
+            records.add(createBaseRecord(record));
         }
         return records;
     }
 
-    private BaseRecord createBaseRecord(MedicalRecord record, AppointmentService appointmentService) {
+    private BaseRecord createBaseRecord(MedicalRecord record) {
         Owner owner = modelSerive.findOwner(record.getOwnerId());
-        AppointmentEntity appointmentEntity = appointmentService.findAppointment(record.getAppointmentId());
+        AppointmentEntity appointmentEntity = appointmentRepository.findById(record.getAppointmentId());
         Vet vet = modelSerive.findVet(record.getVetId());
         Pet pet = modelSerive.findPet(record.getPetId());
         BaseRecord baseRecord = new BaseRecord();
@@ -42,26 +44,21 @@ public class AppointmentRecordBuilder {
         baseRecord.setOwnerLastName(owner.getLastName());
         baseRecord.setPetName(pet.getName());
         baseRecord.setAppointmentDate(appointmentEntity.getAppointmentDate());
-        baseRecord.setState(resolveState(record.getState(), record));
+        baseRecord.setState(resolveState(record.getState()));
         if(record.getState() == AppointmentState.PAYMENT){
            baseRecord.setPrice(paymentService.getPayment(record.getPaymentId()));
         }
         return baseRecord;
     }
 
-    private AppointmentState resolveState(AppointmentState state, MedicalRecord record) {
-        switch (state){
-            case INIT:
-                return AppointmentState.INIT;
-            case CONSULTAION:
-                return AppointmentState.CONSULTAION;
-            case PAYMENT:
-                return AppointmentState.PAYMENT; // Set additional properties if necessary
-            case MEDICINE:
-                return AppointmentState.MEDICINE;
-            default:
-                throw new IllegalStateException("Unknown state: " + state);
-        }
+    private AppointmentState resolveState(AppointmentState state) {
+        return switch (state) {
+            case INIT -> AppointmentState.INIT;
+            case CONSULTAION -> AppointmentState.CONSULTAION;
+            case PAYMENT -> AppointmentState.PAYMENT; // Set additional properties if necessary
+            case MEDICINE -> AppointmentState.MEDICINE;
+            default -> throw new IllegalStateException("Unknown state: " + state);
+        };
     }
 
 }

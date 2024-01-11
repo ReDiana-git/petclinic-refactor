@@ -1,5 +1,6 @@
 package nl.nl0e0.petclinicrefactor.service.consultation;
 
+import nl.nl0e0.petclinicrefactor.entity.consultation.CheckConsultationDTO;
 import nl.nl0e0.petclinicrefactor.entity.consultation.ConsultationEntity;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 import nl.nl0e0.petclinicrefactor.repository.ConsultationRepository;
@@ -15,7 +16,13 @@ public class ConsultationService {
         consultationRepository.save(consultationEntity);
     }
 
+
+
+
     public void deleteAll() {
         consultationRepository.deleteAll();
+    }
+
+    public CheckConsultationDTO checkConsultation(String recordId) {
     }
 }

@@ -4,11 +4,8 @@ import nl.nl0e0.petclinicrefactor.entity.appointment.AppointmentEntity;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.OwnerNameDTO;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
-import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.model.BaseRecord;
 import nl.nl0e0.petclinicrefactor.entity.owner.Owner;
-import nl.nl0e0.petclinicrefactor.entity.owner.Pet;
-import nl.nl0e0.petclinicrefactor.entity.vet.Vet;
 import nl.nl0e0.petclinicrefactor.repository.*;
 import nl.nl0e0.petclinicrefactor.service.consultation.ConsultationService;
 import nl.nl0e0.petclinicrefactor.service.medicalRecord.MedicalRecordService;
@@ -17,8 +14,6 @@ import nl.nl0e0.petclinicrefactor.service.model.ModelSerive;
 import nl.nl0e0.petclinicrefactor.service.payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -58,7 +53,7 @@ public class AppointmentService {
 	}
 
 	private List<BaseRecord> getRecordsFromStates(List<MedicalRecord> medicalRecords){
-		return appointmentRecordBuilder.buildRecordsFromMedicalRecords(medicalRecords, this);
+		return appointmentRecordBuilder.buildRecordsFromMedicalRecords(medicalRecords);
 	}
 
 	public void deleteAll() {
