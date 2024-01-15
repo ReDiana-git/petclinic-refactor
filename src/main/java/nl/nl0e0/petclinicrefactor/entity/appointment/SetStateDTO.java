@@ -11,4 +11,11 @@ public class SetStateDTO {
     @Id
     String recordId;
     String state;
+    public SetStateDTO(String recordId, String state){
+        this.recordId = recordId;
+        this.state = state;
+    }
+    public SetStateDTO(){
+
+    }
 }

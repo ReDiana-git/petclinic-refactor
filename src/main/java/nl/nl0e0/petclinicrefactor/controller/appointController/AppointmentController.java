@@ -35,7 +35,7 @@ public class AppointmentController {
 	}
 	@PostMapping("/appointment/getAppointments")
 	public ResponseEntity<?> getAppointmentByOwnerName(@RequestBody OwnerNameDTO ownerNameDTO){
-		appointmentService.checkValid(ownerNameDTO);
+//		appointmentService.checkValid(ownerNameDTO);
 		List<?> appointmentEntities = appointmentService.getAppointmentsByOwnerName(ownerNameDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(appointmentEntities);
 	}

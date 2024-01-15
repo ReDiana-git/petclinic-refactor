@@ -84,7 +84,7 @@ public class AppointmentService {
 			throw new RuntimeException("set State denied.");
 
     }
-	private boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
+	public boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
 		switch (setStateDTO.getState()){
 			case "consultation" :
                 return currentState.equals(AppointmentState.INIT);

@@ -37,6 +37,10 @@ public class AppointmentRecordBuilder {
         AppointmentEntity appointmentEntity = appointmentRepository.findById(record.getAppointmentId());
         Vet vet = modelSerive.findVet(record.getVetId());
         Pet pet = modelSerive.findPet(record.getPetId());
+        return buildBaseRecord(vet, pet, owner, appointmentEntity, record);
+    }
+
+    public BaseRecord buildBaseRecord(Vet vet, Pet pet, Owner owner, AppointmentEntity appointmentEntity, MedicalRecord medicalRecord){
         BaseRecord baseRecord = new BaseRecord();
         baseRecord.setVetFirstName(vet.getFirstName());
         baseRecord.setVetLastName(vet.getLastName());
@@ -44,13 +48,12 @@ public class AppointmentRecordBuilder {
         baseRecord.setOwnerLastName(owner.getLastName());
         baseRecord.setPetName(pet.getName());
         baseRecord.setAppointmentDate(appointmentEntity.getAppointmentDate());
-        baseRecord.setState(resolveState(record.getState()));
-        if(record.getState() == AppointmentState.PAYMENT){
-           baseRecord.setPrice(paymentService.getPayment(record.getPaymentId()));
+        baseRecord.setState(medicalRecord.getState());
+        if(medicalRecord.getState() == AppointmentState.PAYMENT){
+            baseRecord.setPrice(paymentService.getPayment(medicalRecord.getPaymentId()));
         }
         return baseRecord;
     }
-
     private AppointmentState resolveState(AppointmentState state) {
         return switch (state) {
             case INIT -> AppointmentState.INIT;
