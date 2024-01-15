@@ -24,15 +24,16 @@ public class MedicalRecord implements Serializable {
 
 	@Column(name = "vet_id")
 	private Integer vetId;
+
 	@Column(name = "state")
-	private String State;
+	private String state;
 
 	@Column(name = "pet_id")
 	private Integer petId;
 	@Column(name = "appointment_id")
 	private String appointmentId = UUID.randomUUID().toString();
 	@Column(name = "consultation_id")
-	private String consultaionId = UUID.randomUUID().toString();
+	private String consultationId = UUID.randomUUID().toString();
 	@Column(name = "payment_id")
 	private String paymentId = UUID.randomUUID().toString();
 	@Column(name = "medicine_id")
@@ -40,24 +41,39 @@ public class MedicalRecord implements Serializable {
 
 
 	public AppointmentState getState(){
-		switch(State){
+		switch(state){
 			case "init":
 				return AppointmentState.INIT;
 			case "consultation":
 				return AppointmentState.CONSULTAION;
 			case "payment":
 				return AppointmentState.PAYMENT;
-			case "medication":
+			case "medicine":
 				return AppointmentState.MEDICINE;
 		}
 		return null;
+	}
+
+	public String getState2String(){
+		return state;
+	}
+	public void setState(AppointmentState state){
+		switch (state){
+			case INIT -> this.state = "init";
+			case PAYMENT -> this.state = "payment";
+			case CONSULTAION -> this.state = "consultation";
+			case MEDICINE -> this.state = "medicine";
+		}
+	}
+	public void setState(String state){
+		this.state = state;
 	}
 
 	public MedicalRecord(CreateAppointmentDTO dto) {
 		this.ownerId = dto.getOwnerId();
 		this.petId = dto.getPetId();
 		this.vetId = dto.getVetId();
-		this.State = "init";
+		this.state = "init";
 	}
 
 	public MedicalRecord(){

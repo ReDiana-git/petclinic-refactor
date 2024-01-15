@@ -17,6 +17,7 @@ public class MedicineEntity implements Serializable {
 	@Column(name = "id")
 	private String id;
 
+	@Column(name = "medicines")
 	private String medicines;
 
 	public MedicineEntity() {

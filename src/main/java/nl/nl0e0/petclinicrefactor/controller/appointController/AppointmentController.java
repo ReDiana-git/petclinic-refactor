@@ -2,6 +2,7 @@ package nl.nl0e0.petclinicrefactor.controller.appointController;
 
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.OwnerNameDTO;
+import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
 import nl.nl0e0.petclinicrefactor.service.appointment.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,12 @@ public class AppointmentController {
 		appointmentService.checkValid(ownerNameDTO);
 		List<?> appointmentEntities = appointmentService.getAppointmentsByOwnerName(ownerNameDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(appointmentEntities);
+	}
+
+	@PostMapping("/appointment/setState")
+	public ResponseEntity<?> setState(@RequestBody SetStateDTO setStateDTO){
+		appointmentService.setState(setStateDTO);
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@PostMapping("/delete")

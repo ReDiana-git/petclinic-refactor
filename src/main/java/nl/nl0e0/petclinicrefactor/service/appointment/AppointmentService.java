@@ -3,7 +3,9 @@ package nl.nl0e0.petclinicrefactor.service.appointment;
 import nl.nl0e0.petclinicrefactor.entity.appointment.AppointmentEntity;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.OwnerNameDTO;
+import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
+import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.model.BaseRecord;
 import nl.nl0e0.petclinicrefactor.entity.owner.Owner;
 import nl.nl0e0.petclinicrefactor.repository.*;
@@ -70,5 +72,28 @@ public class AppointmentService {
 
 	public void checkValid(OwnerNameDTO ownerNameDTO) {
 
+	}
+
+    public void setState(SetStateDTO setStateDTO) {
+		MedicalRecord medicalRecord = medicalRecordService.findByRecorId(setStateDTO.getRecordId());
+		if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
+			medicalRecord.setState(setStateDTO.getState());
+			medicalRecordService.updateState(medicalRecord);
+		}
+		else
+			throw new RuntimeException("set State denied.");
+
+    }
+	private boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
+		switch (setStateDTO.getState()){
+			case "consultation" :
+                return currentState.equals(AppointmentState.INIT);
+			case "payment":
+                return currentState.equals(AppointmentState.CONSULTAION);
+			case "medicine":
+				return currentState.equals(AppointmentState.PAYMENT);
+			default:
+				return false;
+		}
 	}
 }

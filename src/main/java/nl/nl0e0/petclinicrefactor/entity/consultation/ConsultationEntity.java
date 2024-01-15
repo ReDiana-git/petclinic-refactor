@@ -4,26 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 import java.io.Serializable;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "consultation")
 public class ConsultationEntity implements Serializable {
 
 	public ConsultationEntity() {
-	}
-
-	public String  getSymptom() {
-		return symptom;
-	}
-
-	public void setSymptom(String symptom) {
-		this.symptom = symptom;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	@Id
@@ -33,6 +25,6 @@ public class ConsultationEntity implements Serializable {
 	private String symptom;
 
 	public ConsultationEntity(MedicalRecord medicalRecord){
-		this.id = medicalRecord.getConsultaionId();
+		this.id = medicalRecord.getConsultationId();
 	}
 }

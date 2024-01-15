@@ -29,4 +29,8 @@ public class MedicalRecordService {
     public MedicalRecord findByRecorId(String recordId){
         return repository.findById(recordId);
     }
+
+    public void updateState(MedicalRecord medicalRecord) {
+        repository.updateState(medicalRecord.getState2String(), medicalRecord.getId());
+    }
 }

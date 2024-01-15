@@ -2,9 +2,7 @@ package nl.nl0e0.petclinicrefactor.entity.consultation;
 
 import lombok.Getter;
 import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
-import org.springframework.samples.petclinic.medicalRecord.MedicalRecord;
-import org.springframework.samples.petclinic.medicine.MedicineEntity;
-import org.springframework.samples.petclinic.model.BaseRecord;
+
 
 @Getter
 public class CheckConsultationDTO{

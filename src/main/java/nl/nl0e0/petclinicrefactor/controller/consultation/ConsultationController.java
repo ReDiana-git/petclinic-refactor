@@ -2,6 +2,7 @@ package nl.nl0e0.petclinicrefactor.controller.consultation;
 
 import com.google.gson.Gson;
 import nl.nl0e0.petclinicrefactor.entity.consultation.CheckConsultationDTO;
+import nl.nl0e0.petclinicrefactor.entity.consultation.UpdateConsultationDTO;
 import nl.nl0e0.petclinicrefactor.service.consultation.ConsultationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class ConsultationController {
 	//給醫生更新病歷
 	@PostMapping("/appoint/updateConsultation")
 	public ResponseEntity<?> updateConsultation(@RequestBody UpdateConsultationDTO updateConsultationDTO){
+		System.out.println("updateConsultationDTO Object in Controller\n" + updateConsultationDTO);
 		consultationService.updateConsultation(updateConsultationDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
