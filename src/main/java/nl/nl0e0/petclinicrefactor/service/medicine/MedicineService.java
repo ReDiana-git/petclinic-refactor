@@ -14,6 +14,11 @@ public class MedicineService {
         MedicineEntity medicine = new MedicineEntity(medicalRecord);
         repositroy.save(medicine);
     }
+
+    public MedicineEntity findRecordById(String recordId){
+        return repositroy.findById(recordId);
+    }
+
     public void deleteAll(){
         repositroy.deleteAll();
     }

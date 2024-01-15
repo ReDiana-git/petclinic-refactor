@@ -4,23 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 
 import java.io.Serializable;
 
+@Getter
 @Entity
 @Table(name = "medicine")
 public class MedicineEntity implements Serializable {
 	@Id
 	@Column(name = "id")
 	private String id;
-
-	public void setMedicines(String medicines) {
-		this.medicines = medicines;
-	}
-	public String getMedicines(){
-		return this.medicines;
-	}
 
 	private String medicines;
 

@@ -25,4 +25,8 @@ public class MedicalRecordService {
     public List<MedicalRecord> findByOwnerId(Integer ownerId) {
         return repository.findByOwnerId(ownerId);
     }
+
+    public MedicalRecord findByRecorId(String recordId){
+        return repository.findById(recordId);
+    }
 }
