@@ -1,5 +1,6 @@
 package nl.nl0e0.petclinicrefactor.controller.appointController;
 
+import com.google.gson.Gson;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.OwnerNameDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
@@ -20,10 +21,22 @@ public class AppointmentController {
 
 	@Autowired
 	AppointmentService appointmentService;
+	Gson gson = new Gson();
 
 	@PostMapping("/appointment/createAppointments")
 	public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentDTO createAppointMentDTO){
-		appointmentService.createAppointment(createAppointMentDTO);
+		try{
+			appointmentService.checkCreateAppointmentDTOValidation(createAppointMentDTO);
+			appointmentService.createAppointment(createAppointMentDTO);
+		}catch (Exception exception){
+			Map<String, Object> body = new LinkedHashMap<>();
+			body.put("timestamp", LocalDateTime.now());
+			body.put("message", exception.getMessage());
+
+			// 返回包含自定义错误信息和HTTP状态码的ResponseEntity
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+		}
+
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

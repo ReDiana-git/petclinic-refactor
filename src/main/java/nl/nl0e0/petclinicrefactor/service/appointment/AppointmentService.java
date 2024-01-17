@@ -43,6 +43,11 @@ public class AppointmentService {
 		AppointmentEntity appointment = new AppointmentEntity(medicalRecord, createAppointmentDTO);
 		appointmentRepository.save(appointment);
 	}
+
+	public void checkCreateAppointmentDTOValidation(CreateAppointmentDTO createAppointMentDTO){
+		if(createAppointMentDTO.getAppointmentDate() == null)
+			throw new NullPointerException("Appointment Date should not be null.");
+	}
 	public List<?> getAppointmentsByOwnerId(Integer owner_id){
 		List<MedicalRecord> MedicalRecords = medicalRecordService.findByOwnerId(owner_id);
         return getRecordsFromStates(MedicalRecords);
