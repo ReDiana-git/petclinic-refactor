@@ -45,8 +45,15 @@ public class AppointmentService {
 	}
 
 	public void checkCreateAppointmentDTOValidation(CreateAppointmentDTO createAppointMentDTO){
+		String notBeNull = " should not be null.";
 		if(createAppointMentDTO.getAppointmentDate() == null)
-			throw new NullPointerException("Appointment Date should not be null.");
+			throw new NullPointerException("Appointment Date" + notBeNull);
+		if(createAppointMentDTO.getPetId() == null)
+			throw new NullPointerException("Pet ID" + notBeNull);
+		if(createAppointMentDTO.getOwnerId() == null)
+			throw new NullPointerException("Owner ID" + notBeNull);
+		if(createAppointMentDTO.getVetId() == null)
+			throw new NullPointerException("Vet ID" + notBeNull);
 	}
 	public List<?> getAppointmentsByOwnerId(Integer owner_id){
 		List<MedicalRecord> MedicalRecords = medicalRecordService.findByOwnerId(owner_id);
