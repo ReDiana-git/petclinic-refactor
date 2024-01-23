@@ -1,4 +1,4 @@
-package nl.nl0e0.petclinicrefactor.controller.appointController;
+package nl.nl0e0.petclinicrefactor.controller.appointment;
 
 import com.google.gson.Gson;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
