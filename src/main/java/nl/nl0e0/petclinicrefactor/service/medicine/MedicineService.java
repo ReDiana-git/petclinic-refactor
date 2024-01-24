@@ -17,8 +17,7 @@ public class MedicineService {
     MedicineRepositroy repositroy;
     @Autowired
     MedicalRecordService medicalRecordService;
-    @Autowired
-    AppointmentService appointmentService;
+
     public void createMedicine(MedicalRecord medicalRecord){
         MedicineEntity medicine = new MedicineEntity(medicalRecord);
         repositroy.save(medicine);
@@ -36,11 +35,11 @@ public class MedicineService {
     }
 
     public MedicineCounterDTO medicineCounter(String recordId) throws IllegalAccessException {
-        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(recordId);
-        if(!(medicalRecord.getState2String().equals("medicine")))
-            throw new IllegalAccessException("You are not at medicine state.");
-
-        appointmentService.setState(new SetStateDTO(recordId,"done"));
+//        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(recordId);
+//        if(!(medicalRecord.getState2String().equals("medicine")))
+//            throw new IllegalAccessException("You are not at medicine state.");
+//
+//        appointmentService.setState(new SetStateDTO(recordId,"done"));
         return new MedicineCounterDTO(recordId, "done");
     }
 }

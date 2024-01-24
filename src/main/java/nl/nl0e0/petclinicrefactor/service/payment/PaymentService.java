@@ -68,4 +68,14 @@ public class PaymentService {
         }
         return (cardNum.charAt(15) - '0') == (10 - checkNumSum % 10);
     }
+    public void setState(SetStateDTO setStateDTO) {
+        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(setStateDTO.getRecordId());
+        if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
+            medicalRecord.setState(setStateDTO.getState());
+            medicalRecordService.updateState(medicalRecord);
+        }
+        else
+            throw new RuntimeException("set State denied.");
+
+    }
 }
