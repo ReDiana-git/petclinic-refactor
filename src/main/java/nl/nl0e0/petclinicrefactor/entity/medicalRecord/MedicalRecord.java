@@ -50,6 +50,8 @@ public class MedicalRecord implements Serializable {
 				return AppointmentState.PAYMENT;
 			case "medicine":
 				return AppointmentState.MEDICINE;
+			case "done":
+				return AppointmentState.DONE;
 		}
 		return null;
 	}
@@ -63,6 +65,7 @@ public class MedicalRecord implements Serializable {
 			case PAYMENT -> this.state = "payment";
 			case CONSULTAION -> this.state = "consultation";
 			case MEDICINE -> this.state = "medicine";
+			case DONE -> this.state = "done";
 		}
 	}
 	public void setState(String state){
