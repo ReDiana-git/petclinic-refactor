@@ -24,8 +24,8 @@ public class VetControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+//    @Autowired
+//    private ObjectMapper objectMapper;
     @MockBean
     private VetRepository vetRepository;
     private Vet vet;

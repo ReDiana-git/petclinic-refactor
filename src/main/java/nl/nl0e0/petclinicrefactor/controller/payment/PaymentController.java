@@ -1,5 +1,6 @@
 package nl.nl0e0.petclinicrefactor.controller.payment;
 
+import com.google.gson.Gson;
 import nl.nl0e0.petclinicrefactor.entity.payment.PaymentDTO;
 import nl.nl0e0.petclinicrefactor.entity.payment.PaymentInfoDTO;
 import nl.nl0e0.petclinicrefactor.entity.payment.PaymentSucessDTO;
@@ -24,8 +25,9 @@ public class PaymentController {
 
     @PostMapping("/appointment/getPaymentInfo")
     public ResponseEntity<?> getPaymentInfo(@RequestBody String recordId){
+//        System.out.println(recordId);
         PaymentInfoDTO paymentInfoDTO = paymentService.getPaymentInfo(recordId);
-        return ResponseEntity.status(HttpStatus.OK).body(paymentInfoDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson(paymentInfoDTO));
     }
 
     @PostMapping("/appointment/payment")

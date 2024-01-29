@@ -87,7 +87,7 @@ public class AppointmentService {
 	}
 
     public void setState(SetStateDTO setStateDTO) {
-		MedicalRecord medicalRecord = medicalRecordService.findByRecorId(setStateDTO.getRecordId());
+		MedicalRecord medicalRecord = medicalRecordService.findByRecordId(setStateDTO.getRecordId());
 		if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
 			medicalRecord.setState(setStateDTO.getState());
 			medicalRecordService.updateState(medicalRecord);

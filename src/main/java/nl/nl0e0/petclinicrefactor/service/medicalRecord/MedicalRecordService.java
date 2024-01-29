@@ -26,7 +26,7 @@ public class MedicalRecordService {
         return repository.findByOwnerId(ownerId);
     }
 
-    public MedicalRecord findByRecorId(String recordId){
+    public MedicalRecord findByRecordId(String recordId){
         return repository.findById(recordId);
     }
 

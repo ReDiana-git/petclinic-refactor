@@ -5,20 +5,16 @@ import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.payment.*;
 import nl.nl0e0.petclinicrefactor.repository.PaymentRepository;
-import nl.nl0e0.petclinicrefactor.service.appointment.AppointmentService;
 import nl.nl0e0.petclinicrefactor.service.medicalRecord.MedicalRecordService;
-import nl.nl0e0.petclinicrefactor.service.medicine.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.management.BadAttributeValueExpException;
 
 @Service
 public class PaymentService {
     @Autowired
     PaymentRepository repository;
-    @Autowired
-    AppointmentService appointmentService;
+//    @Autowired
+//    AppointmentService appointmentService;
     @Autowired
     MedicalRecordService medicalRecordService;
     public void createPayment(MedicalRecord medicalRecord){
@@ -34,7 +30,7 @@ public class PaymentService {
         return repository.findById(paymentId).getPrice();
     }
     public PaymentInfoDTO getPaymentInfo(String recordId){
-        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(recordId);
+        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(recordId);
         PaymentEntity paymentEntity = repository.findById(medicalRecord.getPaymentId());
         PaymentInfoDTO paymentInfoDTO = new PaymentInfoDTO(recordId, paymentEntity.getPrice(), medicalRecord.getState2String());
         return paymentInfoDTO;
@@ -43,8 +39,8 @@ public class PaymentService {
         CardEntity cardEntity = new CardEntity(paymentDTO.getCardNumber(), paymentDTO.getCardFirstName(), paymentDTO.getCardLastName(), paymentDTO.getCheckNum());
         if(checkCreditCardWithLuhnAlgor(cardEntity))
             throw new IllegalArgumentException("The Card Number is not available!");
-        appointmentService.setState(new SetStateDTO(paymentDTO.getRecordId(), "medicine"));
-        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(paymentDTO.getRecordId());
+        setState(new SetStateDTO(paymentDTO.getRecordId(), "medicine"));
+        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(paymentDTO.getRecordId());
         return new PaymentSucessDTO(medicalRecord.getPaymentId(), medicalRecord.getState2String());
     }
     public boolean checkCreditCardWithLuhnAlgor(CardEntity cardEntity){
@@ -69,7 +65,7 @@ public class PaymentService {
         return (cardNum.charAt(15) - '0') == (10 - checkNumSum % 10);
     }
     public void setState(SetStateDTO setStateDTO) {
-        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(setStateDTO.getRecordId());
+        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(setStateDTO.getRecordId());
         if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
             medicalRecord.setState(setStateDTO.getState());
             medicalRecordService.updateState(medicalRecord);
@@ -77,5 +73,17 @@ public class PaymentService {
         else
             throw new RuntimeException("set State denied.");
 
+    }
+    public boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
+        switch (setStateDTO.getState()){
+            case "consultation" :
+                return currentState.equals(AppointmentState.INIT);
+            case "payment":
+                return currentState.equals(AppointmentState.CONSULTAION);
+            case "medicine":
+                return currentState.equals(AppointmentState.PAYMENT);
+            default:
+                return false;
+        }
     }
 }

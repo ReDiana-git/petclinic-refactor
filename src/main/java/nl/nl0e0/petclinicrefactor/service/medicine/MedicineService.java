@@ -1,12 +1,11 @@
 package nl.nl0e0.petclinicrefactor.service.medicine;
 
 import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
-import nl.nl0e0.petclinicrefactor.entity.consultation.UpdateConsultationDTO;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 import nl.nl0e0.petclinicrefactor.entity.medicine.MedicineCounterDTO;
 import nl.nl0e0.petclinicrefactor.entity.medicine.MedicineEntity;
+import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.repository.MedicineRepositroy;
-import nl.nl0e0.petclinicrefactor.service.appointment.AppointmentService;
 import nl.nl0e0.petclinicrefactor.service.medicalRecord.MedicalRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +34,33 @@ public class MedicineService {
     }
 
     public MedicineCounterDTO medicineCounter(String recordId) throws IllegalAccessException {
-//        MedicalRecord medicalRecord = medicalRecordService.findByRecorId(recordId);
-//        if(!(medicalRecord.getState2String().equals("medicine")))
-//            throw new IllegalAccessException("You are not at medicine state.");
-//
-//        appointmentService.setState(new SetStateDTO(recordId,"done"));
+        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(recordId);
+        if(!(medicalRecord.getState2String().equals("medicine")))
+            throw new IllegalAccessException("You are not at medicine state.");
+
+        setState(new SetStateDTO(recordId,"done"));
         return new MedicineCounterDTO(recordId, "done");
+    }
+    public void setState(SetStateDTO setStateDTO) {
+        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(setStateDTO.getRecordId());
+        if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
+            medicalRecord.setState(setStateDTO.getState());
+            medicalRecordService.updateState(medicalRecord);
+        }
+        else
+            throw new RuntimeException("set State denied.");
+
+    }
+    public boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
+        switch (setStateDTO.getState()){
+            case "consultation" :
+                return currentState.equals(AppointmentState.INIT);
+            case "payment":
+                return currentState.equals(AppointmentState.CONSULTAION);
+            case "medicine":
+                return currentState.equals(AppointmentState.PAYMENT);
+            default:
+                return false;
+        }
     }
 }
