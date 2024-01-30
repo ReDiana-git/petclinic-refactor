@@ -34,7 +34,7 @@ public class PaymentController {
     public ResponseEntity<?> payment(@RequestBody PaymentDTO paymentDTO){
         try{
             PaymentSucessDTO paymentSucessDTO = paymentService.payment(paymentDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(paymentSucessDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson(paymentSucessDTO));
         }catch (Exception exception){
             Map<String, Object> body = new LinkedHashMap<>();
             body.put("timestamp", LocalDateTime.now());

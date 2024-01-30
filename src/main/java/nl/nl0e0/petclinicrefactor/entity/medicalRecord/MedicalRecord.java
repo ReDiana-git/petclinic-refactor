@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
 import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 
@@ -68,8 +69,30 @@ public class MedicalRecord implements Serializable {
 			case DONE -> this.state = "done";
 		}
 	}
-	public void setState(String state){
-		this.state = state;
+	public boolean setState(String state){
+		if(checkChangeStateAvailable(state) || state.equals(this.state)){
+			this.state = state;
+			return true;
+		}
+		else{
+			return false;
+		}
+
+
+	}
+	public boolean checkChangeStateAvailable(String setState){
+		switch (setState){
+			case "consultation" :
+				return this.state.equals("init");
+			case "payment":
+				return this.state.equals("consultation");
+			case "medicine":
+				return this.state.equals("payment");
+			case "done":
+				return this.state.equals("medicine");
+			default:
+				return false;
+		}
 	}
 
 	public MedicalRecord(CreateAppointmentDTO dto) {
@@ -81,5 +104,13 @@ public class MedicalRecord implements Serializable {
 
 	public MedicalRecord(){
 
+	}
+	@Override
+	public String toString(){
+		return "Record ID: " + id
+				+ "\nAppointment ID: " + appointmentId
+				+ "\nConsultation ID: " + consultationId
+				+ "\nPayment ID: " + consultationId
+				+ "\nMedicine ID: " + medicineId ;
 	}
 }

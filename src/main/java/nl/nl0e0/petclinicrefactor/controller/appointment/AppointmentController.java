@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.OwnerNameDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
+import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 import nl.nl0e0.petclinicrefactor.service.appointment.AppointmentService;
+import nl.nl0e0.petclinicrefactor.service.systemActionAlert.SuccessActionAlert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +26,29 @@ public class AppointmentController {
 
 	@Autowired
 	AppointmentService appointmentService;
+	SuccessActionAlert successActionAlert = new SuccessActionAlert();
 	Gson gson = new Gson();
 
+
+	// 建立新的預約單號
 	@PostMapping("/appointment/createAppointments")
 	public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentDTO createAppointMentDTO){
 		try{
 			appointmentService.checkCreateAppointmentDTOValidation(createAppointMentDTO);
-			appointmentService.createAppointment(createAppointMentDTO);
+			MedicalRecord medicalRecord = appointmentService.createAppointment(createAppointMentDTO);
+			successActionAlert.createAppointmentAlert(medicalRecord);
+			return ResponseEntity.status(HttpStatus.CREATED).body(medicalRecord);
 		}catch (Exception exception){
 			Map<String, Object> body = new LinkedHashMap<>();
 			body.put("timestamp", LocalDateTime.now());
 			body.put("message", exception.getMessage());
 
-			// 返回包含自定义错误信息和HTTP状态码的ResponseEntity
+			// 返回包含自定義錯誤訊息和HTTP狀態碼的ResponseEntity
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
 		}
 
 
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+
 	}
 
 //	@PostMapping("/appointment/getAppointments")

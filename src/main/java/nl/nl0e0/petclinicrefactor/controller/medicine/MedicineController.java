@@ -1,5 +1,6 @@
 package nl.nl0e0.petclinicrefactor.controller.medicine;
 
+import com.google.gson.Gson;
 import nl.nl0e0.petclinicrefactor.entity.medicine.MedicineCounterDTO;
 import nl.nl0e0.petclinicrefactor.service.medicine.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,12 @@ import java.util.Map;
 public class MedicineController {
     @Autowired
     MedicineService medicineService;
+    Gson gson = new Gson();
     @PostMapping("/appointment/medicineCounter")
     public ResponseEntity<?> medicineCounter(@RequestBody String recordId){
         try{
             MedicineCounterDTO medicineCounterDTO = medicineService.medicineCounter(recordId);
-            return ResponseEntity.status(HttpStatus.OK).body(medicineCounterDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(new Gson().toJson(medicineCounterDTO));
         }catch (Exception exception){
             Map<String, Object> body = new LinkedHashMap<>();
             body.put("timestamp", LocalDateTime.now());

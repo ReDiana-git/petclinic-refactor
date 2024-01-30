@@ -37,7 +37,7 @@ public class PaymentService {
     }
     public PaymentSucessDTO payment(PaymentDTO paymentDTO){
         CardEntity cardEntity = new CardEntity(paymentDTO.getCardNumber(), paymentDTO.getCardFirstName(), paymentDTO.getCardLastName(), paymentDTO.getCheckNum());
-        if(checkCreditCardWithLuhnAlgor(cardEntity))
+        if(!checkCreditCardWithLuhnAlgor(cardEntity))
             throw new IllegalArgumentException("The Card Number is not available!");
         setState(new SetStateDTO(paymentDTO.getRecordId(), "medicine"));
         MedicalRecord medicalRecord = medicalRecordService.findByRecordId(paymentDTO.getRecordId());

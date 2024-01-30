@@ -38,29 +38,30 @@ public class MedicineService {
         if(!(medicalRecord.getState2String().equals("medicine")))
             throw new IllegalAccessException("You are not at medicine state.");
 
-        setState(new SetStateDTO(recordId,"done"));
+        medicalRecord.setState("done");
+
         return new MedicineCounterDTO(recordId, "done");
     }
-    public void setState(SetStateDTO setStateDTO) {
-        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(setStateDTO.getRecordId());
-        if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
-            medicalRecord.setState(setStateDTO.getState());
-            medicalRecordService.updateState(medicalRecord);
-        }
-        else
-            throw new RuntimeException("set State denied.");
-
-    }
-    public boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
-        switch (setStateDTO.getState()){
-            case "consultation" :
-                return currentState.equals(AppointmentState.INIT);
-            case "payment":
-                return currentState.equals(AppointmentState.CONSULTAION);
-            case "medicine":
-                return currentState.equals(AppointmentState.PAYMENT);
-            default:
-                return false;
-        }
-    }
+//    public void setState(SetStateDTO setStateDTO) {
+//        MedicalRecord medicalRecord = medicalRecordService.findByRecordId(setStateDTO.getRecordId());
+//        if(checkChangeStateAvailable(setStateDTO ,medicalRecord.getState())){
+//            medicalRecord.setState(setStateDTO.getState());
+//            medicalRecordService.updateState(medicalRecord);
+//        }
+//        else
+//            throw new RuntimeException("set State denied.");
+//
+//    }
+//    public boolean checkChangeStateAvailable(SetStateDTO setStateDTO, AppointmentState currentState){
+//        switch (setStateDTO.getState()){
+//            case "consultation" :
+//                return currentState.equals(AppointmentState.INIT);
+//            case "payment":
+//                return currentState.equals(AppointmentState.CONSULTAION);
+//            case "medicine":
+//                return currentState.equals(AppointmentState.PAYMENT);
+//            default:
+//                return false;
+//        }
+//    }
 }

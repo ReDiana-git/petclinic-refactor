@@ -4,10 +4,13 @@ import nl.nl0e0.petclinicrefactor.entity.appointment.AppointmentEntity;
 import nl.nl0e0.petclinicrefactor.entity.appointment.CreateAppointmentDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.OwnerNameDTO;
 import nl.nl0e0.petclinicrefactor.entity.appointment.SetStateDTO;
+import nl.nl0e0.petclinicrefactor.entity.consultation.ConsultationEntity;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
+import nl.nl0e0.petclinicrefactor.entity.medicine.MedicineEntity;
 import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.entity.model.BaseRecord;
 import nl.nl0e0.petclinicrefactor.entity.owner.Owner;
+import nl.nl0e0.petclinicrefactor.entity.payment.PaymentEntity;
 import nl.nl0e0.petclinicrefactor.repository.*;
 import nl.nl0e0.petclinicrefactor.service.consultation.ConsultationService;
 import nl.nl0e0.petclinicrefactor.service.medicalRecord.MedicalRecordService;
@@ -23,6 +26,14 @@ public class AppointmentService {
 	@Autowired
 	AppointmentRepository appointmentRepository;
 	@Autowired
+	MedicalRecordRepository medicalRecordRepository;
+	@Autowired
+	ConsultationRepository consultationRepository;
+	@Autowired
+	PaymentRepository paymentRepository;
+	@Autowired
+	MedicineRepositroy medicineRepositroy;
+	@Autowired
 	MedicalRecordService medicalRecordService;
 	@Autowired
 	ConsultationService consultationService;
@@ -35,13 +46,13 @@ public class AppointmentService {
 	@Autowired
 	ModelSerive modelSerive;
 	//客戶建立訂單
-	public void createAppointment(CreateAppointmentDTO createAppointmentDTO){
+	public MedicalRecord createAppointment(CreateAppointmentDTO createAppointmentDTO){
 		MedicalRecord medicalRecord = medicalRecordService.createMedicalRecord(createAppointmentDTO);
-		consultationService.createConsultation(medicalRecord);
-		paymentService.createPayment(medicalRecord);
-		medicineService.createMedicine(medicalRecord);
-		AppointmentEntity appointment = new AppointmentEntity(medicalRecord, createAppointmentDTO);
-		appointmentRepository.save(appointment);
+		consultationRepository.save(new ConsultationEntity(medicalRecord));
+		paymentRepository.save(new PaymentEntity(medicalRecord));
+		medicineRepositroy.save(new MedicineEntity(medicalRecord));
+		appointmentRepository.save(new AppointmentEntity(medicalRecord, createAppointmentDTO));
+		return medicalRecord;
 	}
 
 	public void checkCreateAppointmentDTOValidation(CreateAppointmentDTO createAppointMentDTO){
