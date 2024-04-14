@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-public interface MedicineRepositroy extends Repository<MedicineEntity,String> {
+public interface MedicineRepository extends Repository<MedicineEntity,String> {
 	void save(MedicineEntity medicineEntity);
 	@Modifying
 	@Query("UPDATE MedicineEntity medicineEntity SET medicineEntity.medicines = :medicines WHERE medicineEntity.id = :medicineId")

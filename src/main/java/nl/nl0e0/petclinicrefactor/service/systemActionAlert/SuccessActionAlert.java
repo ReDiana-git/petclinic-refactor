@@ -10,4 +10,9 @@ public class SuccessActionAlert {
         System.out.println(medicalRecord);
         System.out.println("-----------------");
     }
+    public void deleteAppointmentsAlert(){
+        System.out.println("-----------------");
+        System.out.println("All Data in Database Has Been Deleted.");
+        System.out.println("-----------------");
+    }
 }

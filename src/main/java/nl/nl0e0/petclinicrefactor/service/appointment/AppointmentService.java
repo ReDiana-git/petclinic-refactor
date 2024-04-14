@@ -32,7 +32,7 @@ public class AppointmentService {
 	@Autowired
 	PaymentRepository paymentRepository;
 	@Autowired
-	MedicineRepositroy medicineRepositroy;
+	MedicineRepository medicineRepositroy;
 	@Autowired
 	MedicalRecordService medicalRecordService;
 	@Autowired
@@ -71,7 +71,7 @@ public class AppointmentService {
         return getRecordsFromStates(MedicalRecords);
 	}
 
-	public List<?> getAppointmentsByOwnerName(OwnerNameDTO ownerNameDTO) {
+	public List<BaseRecord> getAppointmentsByOwnerName(OwnerNameDTO ownerNameDTO) {
 		Owner owner = modelSerive.findOwnerByFullName(ownerNameDTO.getFirstName(), ownerNameDTO.getLastName());
 		List<MedicalRecord> MedicalRecords = medicalRecordService.findByOwnerId(owner.getId());
 		return getRecordsFromStates(MedicalRecords);

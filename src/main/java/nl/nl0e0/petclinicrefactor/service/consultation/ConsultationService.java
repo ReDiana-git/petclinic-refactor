@@ -6,10 +6,9 @@ import nl.nl0e0.petclinicrefactor.entity.consultation.ConsultationEntity;
 import nl.nl0e0.petclinicrefactor.entity.consultation.UpdateConsultationDTO;
 import nl.nl0e0.petclinicrefactor.entity.medicalRecord.MedicalRecord;
 import nl.nl0e0.petclinicrefactor.entity.medicine.MedicineEntity;
-import nl.nl0e0.petclinicrefactor.entity.model.AppointmentState;
 import nl.nl0e0.petclinicrefactor.repository.ConsultationRepository;
 import nl.nl0e0.petclinicrefactor.repository.MedicalRecordRepository;
-import nl.nl0e0.petclinicrefactor.repository.MedicineRepositroy;
+import nl.nl0e0.petclinicrefactor.repository.MedicineRepository;
 import nl.nl0e0.petclinicrefactor.service.medicalRecord.MedicalRecordService;
 import nl.nl0e0.petclinicrefactor.service.medicine.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class ConsultationService {
     @Autowired
     MedicalRecordRepository medicalRecordRepository;
     @Autowired
-    MedicineRepositroy medicineRepositroy;
+    MedicineRepository medicineRepositroy;
     @Autowired
     MedicalRecordService medicalRecordService;
     @Autowired

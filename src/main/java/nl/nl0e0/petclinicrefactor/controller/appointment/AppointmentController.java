@@ -33,6 +33,7 @@ public class AppointmentController {
 	// 建立新的預約單號
 	@PostMapping("/appointment/createAppointments")
 	public ResponseEntity<?> createAppointment(@RequestBody CreateAppointmentDTO createAppointMentDTO){
+
 		try{
 			appointmentService.checkCreateAppointmentDTOValidation(createAppointMentDTO);
 			MedicalRecord medicalRecord = appointmentService.createAppointment(createAppointMentDTO);
@@ -46,9 +47,6 @@ public class AppointmentController {
 			// 返回包含自定義錯誤訊息和HTTP狀態碼的ResponseEntity
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
 		}
-
-
-
 	}
 
 //	@PostMapping("/appointment/getAppointments")
@@ -72,6 +70,7 @@ public class AppointmentController {
 	@PostMapping("/delete")
 	public ResponseEntity<?> deleteAll(){
 		appointmentService.deleteAll();
+		successActionAlert.deleteAppointmentsAlert();
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }
