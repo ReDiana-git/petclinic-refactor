@@ -37,7 +37,7 @@ import java.util.List;
  * @author Arjen Poutsma
  */
 @Controller
-class VetController {
+public class VetController {
 
 	@Autowired
 	private final VetRepository vetRepository;

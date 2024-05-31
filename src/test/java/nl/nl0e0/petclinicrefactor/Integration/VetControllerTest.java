@@ -1,10 +1,11 @@
-package nl.nl0e0.petclinicrefactor.controller.vet;
+package nl.nl0e0.petclinicrefactor.Integration;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import nl.nl0e0.petclinicrefactor.controller.vet.VetController;
 import nl.nl0e0.petclinicrefactor.entity.vet.Vet;
 import nl.nl0e0.petclinicrefactor.repository.VetRepository;
 import org.junit.jupiter.api.Test;
